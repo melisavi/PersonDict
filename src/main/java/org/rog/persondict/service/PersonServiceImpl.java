@@ -1,6 +1,7 @@
 package org.rog.persondict.service;
 
 import org.rog.persondict.PersonDictApp;
+import org.rog.persondict.dao.PersonDao;
 import org.rog.persondict.entity.Person;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,34 +13,37 @@ public class PersonServiceImpl implements PersonService{
     @Value("${personDict.defaultSize}")
     private int defaultLimit;
 
+    private final PersonDao personDao;
+
+    public PersonServiceImpl(PersonDao personDao) {
+        this.personDao = personDao;
+    }
+
     @Override
     public List<Person> findAllPersons(Integer pageSize, Integer pageNumber) {
-        System.out.println("We've got all persons: " + PersonDictApp.personMap.toString());
-        return PersonDictApp.personMap.values().stream().toList();
+        if(pageSize == null || pageNumber == null) {
+            return personDao.findAll(defaultLimit, 0);
+        }
+        return personDao.findAll(pageSize, pageNumber);
     }
 
     @Override
     public Person findById(int id) {
-        System.out.println("We've got the person");
-        return PersonDictApp.personMap.get(id);
+        return personDao.findById(id).orElseThrow();
     }
 
     @Override
     public void save(Person person) {
-        Integer newId = PersonDictApp.personMap.keySet().stream().max(Integer::compareTo).orElse(0) + 1;
-        PersonDictApp.personMap.put(newId, person);
-        System.out.println("We've saved the person");
+        personDao.save(person);
     }
 
     @Override
     public void update(int id, Person person) {
-        PersonDictApp.personMap.put(id, person);
-        System.out.println("We've apdated the person");
+        personDao.update(id, person);
     }
 
     @Override
     public void delete(int id) {
-        PersonDictApp.personMap.remove(id);
-        System.out.println("We've deleted the person");
+        personDao.delete(id);
     }
 }
