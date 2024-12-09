@@ -3,6 +3,7 @@ package org.rog.persondict.entity;
 import java.util.Date;
 
 public class Person {
+    private int id;
     private String name;
     private int age;
     private Date birthDate;
@@ -11,6 +12,10 @@ public class Person {
         this.name = name;
         this.birthDate = birthDate;
         this.age = Math.toIntExact((new Date().getTime() - birthDate.getTime())/(24 * 60 * 60 * 1000)/365);
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -33,10 +38,15 @@ public class Person {
         this.birthDate = birthDate;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", birthDate=" + birthDate +
                 '}';
