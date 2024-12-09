@@ -3,7 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet id="07-12-2024-initschema.xml" author="rog">
+    <changeSet id="09-12-2024-initschema.xml" author="rog">
         <createTable tableName="persons" remarks="table of persons">
             <column name="id" type="integer" autoIncrement="true" startWith="1" incrementBy="1">
                 <constraints primaryKey="true"/>
@@ -11,7 +11,7 @@
             <column name="name" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="birth_date" type="date"/>
+            <column name="birth_date" type="timestamp with time zone"/>
             <column name="age" type="integer"/>
         </createTable>
     </changeSet>

@@ -1,17 +1,19 @@
 package org.rog.persondict.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Person {
     private int id;
     private String name;
     private int age;
-    private Date birthDate;
+    private LocalDate birthDate;
 
-    public Person(String name, Date birthDate) {
+    public Person(int id, String name, LocalDate birthDate, int age) {
+        this.id = id;
         this.name = name;
         this.birthDate = birthDate;
-        this.age = Math.toIntExact((new Date().getTime() - birthDate.getTime())/(24 * 60 * 60 * 1000)/365);
+        this.age = age;
     }
 
     public int getId() {
@@ -26,7 +28,7 @@ public class Person {
         return age;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
@@ -34,7 +36,7 @@ public class Person {
         this.name = name;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

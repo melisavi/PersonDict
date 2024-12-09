@@ -26,14 +26,17 @@ public class PersonController {
     }
 
     @PostMapping("/persons")
-    public void savePerson(@RequestBody Person person){
-        personService.save(person);
+    public Person savePerson(@RequestBody Person person){
+        Integer id = personService.save(person);
+        return personService.findById(id);
     }
 
     @PatchMapping("/persons/{id}")
-    public void updatePerson(@PathVariable(name = "id") int id,
+    public Person updatePerson(@PathVariable(name = "id") int id,
                              @RequestBody Person person){
-        personService.update(id, person);
+        person.setId(id);
+        personService.update(person);
+        return personService.findById(id);
     }
 
     @DeleteMapping("/persons/{id}")

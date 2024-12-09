@@ -33,13 +33,13 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public void save(Person person) {
-        personDao.save(person);
+    public Integer save(Person person) {
+        return personDao.save(person).orElseThrow();
     }
 
     @Override
-    public void update(int id, Person person) {
-        personDao.update(id, person);
+    public Person update(Person person) {
+        return personDao.update(person).orElseThrow();
     }
 
     @Override
