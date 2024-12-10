@@ -72,12 +72,16 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public Optional<Integer> save(Person person) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, person.getName());
             preparedStatement.setDate(2, new java.sql.Date(Date.valueOf(person.getBirthDate()).getTime()));
             preparedStatement.setInt(3, person.getAge());
             preparedStatement.executeUpdate();
-            return Optional.of(person.getId());
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getInt(1));
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw  new RuntimeException(e);
         }
